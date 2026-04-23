@@ -72,6 +72,19 @@ router.get('/recipes/:id', async (req, res) => {
   }
 });
 
+router.put('/recipes/:id', async (req, res) => {
+  try {
+    const recipe = await Recipe.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
+    if (!recipe) {
+      return res.status(404).json({ error: 'Recipe not found' });
+    }
+    res.json(recipe);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
+
 // ==========================
 // ORDERS
 // ==========================
